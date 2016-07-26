@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 **WebRTC is a free, open software project** that provides browsers and mobile
 applications with Real-Time Communications (RTC) capabilities via simple APIs.
 The WebRTC components have been optimized to best serve this purpose.
@@ -21,3 +22,6 @@ started developing with the native code.
  * Samples and reference apps: https://github.com/webrtc
  * Mailing list: http://groups.google.com/group/discuss-webrtc
  * Continuous build: http://build.chromium.org/p/client.webrtc
+=======
+# WEBRTC
+>>>>>>> 57c22e7f9066951caa5a60c53ac48d4c7f80980e
