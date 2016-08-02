@@ -146,15 +146,18 @@ bool WebRtcVideoCapturer::Init(const Device& device) {
   int num_cams = info->NumberOfDevices();
   char vcm_id[256] = "";
   bool found = false;
+  //char name[200];//ajoute
+  //strcpy(name,"WSVideo (0x0000)"); //ajoute
   for (int index = 0; index < num_cams; ++index) {
     char vcm_name[256];
     if (info->GetDeviceName(index, vcm_name, arraysize(vcm_name), vcm_id,
                             arraysize(vcm_id)) != -1) {
       if (device.name == reinterpret_cast<char*>(vcm_name)) {
-        found = true;
-        break;
+        found = true; 
+       break;
       }
-    }
+	//if (strcmp(name , reinterpret_cast<char*>(vcm_name))==0)  {
+        // } 
   }
   if (!found) {
     LOG(LS_WARNING) << "Failed to find capturer for id: " << device.id;
