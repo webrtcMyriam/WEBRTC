@@ -1,0 +1,14 @@
+build misc.py: copy ../../webrtc/tools/py_event_log_analyzer/misc.py || $
+    obj/webrtc/librtc_event_log_proto.a
+build pb_parse.py: copy $
+    ../../webrtc/tools/py_event_log_analyzer/pb_parse.py || $
+    obj/webrtc/librtc_event_log_proto.a
+build rtp_analyzer.py: copy $
+    ../../webrtc/tools/py_event_log_analyzer/rtp_analyzer.py || $
+    obj/webrtc/librtc_event_log_proto.a
+build rtp_analyzer.sh: copy $
+    ../../webrtc/tools/py_event_log_analyzer/rtp_analyzer.sh || $
+    obj/webrtc/librtc_event_log_proto.a
+build obj/webrtc/tools/rtp_analyzer.actions_rules_copies.stamp: stamp $
+    misc.py pb_parse.py rtp_analyzer.py rtp_analyzer.sh
+

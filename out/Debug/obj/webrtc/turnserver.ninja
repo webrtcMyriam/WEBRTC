@@ -1,0 +1,195 @@
+build obj/webrtc/turnserver.actions_depends.stamp: stamp $
+    obj/webrtc/base/librtc_base_approved.a obj/webrtc/pc/librtc_pc.a $
+    obj/webrtc/base/librtc_base.a obj/webrtc/libwebrtc_common.a $
+    obj/chromium/src/third_party/jsoncpp/libjsoncpp.a $
+    obj/chromium/src/third_party/boringssl/libboringssl.a $
+    obj/chromium/src/third_party/boringssl/libboringssl_asm.a $
+    obj/webrtc/media/librtc_media.a obj/webrtc/libwebrtc.a $
+    obj/webrtc/system_wrappers/libsystem_wrappers.a $
+    obj/webrtc/system_wrappers/libcpu_features_linux.a $
+    obj/webrtc/voice_engine/libvoice_engine.a $
+    obj/webrtc/common_audio/libcommon_audio.a $
+    obj/chromium/src/third_party/openmax_dl/dl/libopenmax_dl.a $
+    obj/webrtc/common_audio/libcommon_audio_sse2.a $
+    obj/webrtc/modules/libaudio_coding_module.a obj/webrtc/modules/libcng.a $
+    obj/webrtc/modules/libaudio_encoder_interface.a $
+    obj/webrtc/modules/libg711.a obj/webrtc/modules/libpcm16b.a $
+    obj/webrtc/modules/libilbc.a obj/webrtc/modules/libwebrtc_opus.a $
+    obj/chromium/src/third_party/opus/libopus.a $
+    obj/webrtc/modules/libg722.a obj/webrtc/modules/libisac.a $
+    obj/webrtc/modules/libaudio_decoder_interface.a $
+    obj/webrtc/modules/libisac_common.a obj/webrtc/modules/libred.a $
+    obj/webrtc/librtc_event_log.a obj/webrtc/librtc_event_log_proto.a $
+    obj/chromium/src/third_party/protobuf/libprotobuf_lite.a $
+    obj/webrtc/modules/libneteq.a $
+    obj/webrtc/modules/libbuiltin_audio_decoder_factory.a $
+    obj/webrtc/modules/libaudio_decoder_factory_interface.a $
+    obj/webrtc/modules/librent_a_codec.a $
+    obj/webrtc/modules/libaudio_conference_mixer.a $
+    obj/webrtc/modules/libaudio_processing.a $
+    obj/webrtc/modules/libaudioproc_debug_proto.a $
+    obj/webrtc/modules/libaudio_processing_sse2.a $
+    obj/webrtc/modules/libwebrtc_utility.a $
+    obj/webrtc/modules/libmedia_file.a obj/webrtc/base/librtc_task_queue.a $
+    obj/chromium/src/base/third_party/libevent/libevent.a $
+    obj/webrtc/modules/libaudio_device.a $
+    obj/webrtc/system_wrappers/libmetrics_default.a $
+    obj/webrtc/modules/libbitrate_controller.a $
+    obj/webrtc/modules/libpaced_sender.a obj/webrtc/modules/librtp_rtcp.a $
+    obj/webrtc/common_video/libcommon_video.a libyuv.a $
+    obj/chromium/src/third_party/libjpeg_turbo/libjpeg_turbo.a $
+    obj/webrtc/modules/libremote_bitrate_estimator.a $
+    obj/webrtc/modules/libcongestion_controller.a $
+    obj/webrtc/modules/libvideo_capture_module.a $
+    obj/webrtc/modules/libvideo_processing.a $
+    obj/webrtc/modules/libvideo_processing_sse2.a $
+    obj/webrtc/modules/libwebrtc_video_coding.a $
+    obj/webrtc/modules/libwebrtc_h264.a obj/webrtc/modules/libwebrtc_i420.a $
+    obj/webrtc/modules/video_coding/utility/libvideo_coding_utility.a $
+    obj/webrtc/modules/video_coding/codecs/vp8/libwebrtc_vp8.a $
+    obj/chromium/src/third_party/libvpx/libvpx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_mmx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse2.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_ssse3.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse4_1.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx2.a $
+    obj/webrtc/modules/video_coding/codecs/vp9/libwebrtc_vp9.a $
+    obj/webrtc/p2p/librtc_p2p.a $
+    obj/chromium/src/third_party/usrsctp/libusrsctplib.a $
+    obj/webrtc/modules/libvideo_capture_module_internal_impl.a $
+    obj/chromium/src/third_party/libsrtp/libsrtp.a
+
+build obj/webrtc/turnserver.compile_depends.stamp: stamp $
+    obj/webrtc/rtc_event_log_proto.actions_rules_copies.stamp $
+    obj/webrtc/rtc_event_log_proto.actions_rules_copies.stamp $
+    obj/webrtc/modules/audioproc_debug_proto.actions_rules_copies.stamp $
+    obj/webrtc/modules/audioproc_debug_proto.actions_rules_copies.stamp $
+    obj/chromium/src/third_party/libjpeg_turbo/libjpeg.actions_rules_copies.stamp $
+    obj/chromium/src/third_party/libvpx/libvpx.actions_rules_copies.stamp
+
+defines = -DV8_DEPRECATION_WARNINGS -D_FILE_OFFSET_BITS=64 -DCHROMIUM_BUILD $
+    -DCR_CLANG_REVISION=274369-1 -DUI_COMPOSITOR_IMAGE_TRANSPORT $
+    -DUSE_AURA=1 -DUSE_PANGO=1 -DUSE_CAIRO=1 -DUSE_DEFAULT_RENDER_THEME=1 $
+    -DUSE_LIBJPEG_TURBO=1 -DUSE_X11=1 -DUSE_CLIPBOARD_AURAX11=1 $
+    -DENABLE_WEBRTC=1 -DENABLE_MEDIA_ROUTER=1 -DENABLE_PEPPER_CDMS $
+    -DENABLE_NOTIFICATIONS -DUSE_UDEV -DFIELDTRIAL_TESTING_ENABLED $
+    -DENABLE_TASK_MANAGER=1 -DENABLE_EXTENSIONS=1 -DENABLE_PDF=1 $
+    -DENABLE_PLUGINS=1 -DENABLE_SESSION_SERVICE=1 -DENABLE_THEMES=1 $
+    -DENABLE_PRINTING=1 -DENABLE_BASIC_PRINTING=1 -DENABLE_PRINT_PREVIEW=1 $
+    -DENABLE_SPELLCHECK=1 -DENABLE_CAPTIVE_PORTAL_DETECTION=1 $
+    -DENABLE_SUPERVISED_USERS=1 -DENABLE_MDNS=1 $
+    -DENABLE_SERVICE_DISCOVERY=1 -DV8_USE_EXTERNAL_STARTUP_DATA $
+    -DFULL_SAFE_BROWSING -DSAFE_BROWSING_CSD -DSAFE_BROWSING_DB_LOCAL $
+    -DWEBRTC_LINUX -DHASH_NAMESPACE=__gnu_cxx -DWEBRTC_POSIX $
+    -DDISABLE_DYNAMIC_CAST -D_REENTRANT -DWEBRTC_BUILD_LIBEVENT $
+    -DSRTP_RELATIVE_PATH -DHAVE_SCTP -DHAVE_SRTP -DUSE_LIBPCI=1 $
+    -DUSE_GLIB=1 -DUSE_NSS_CERTS=1 -DDYNAMIC_ANNOTATIONS_ENABLED=1 $
+    -DWTF_USE_DYNAMIC_ANNOTATIONS=1 -D_DEBUG -D_GLIBCXX_DEBUG=1
+includes = -Igen -I../.. -I../.. -I../../third_party $
+    -I../../third_party/webrtc -I../../webrtc -I../../testing/gtest/include
+cflags = -fstack-protector --param=ssp-buffer-size=4 -Werror -pthread $
+    -fno-strict-aliasing -Wall -Wno-unused-parameter $
+    -Wno-missing-field-initializers -fvisibility=hidden -pipe -fPIC $
+    -fcolor-diagnostics $
+    -B/home/webrtc/webrtc-checkout/src/third_party/binutils/Linux_x64/Release/bin $
+    -Wheader-hygiene -Wno-char-subscripts $
+    -Wno-unneeded-internal-declaration -Wno-covered-switch-default $
+    -Wstring-conversion -Wno-c++11-narrowing -Wno-deprecated-register $
+    -Wno-inconsistent-missing-override -Wno-shift-negative-value $
+    -Wno-undefined-var-template -Wno-nonportable-include-path $
+    -Wno-unused-variable -Wall -Wformat -Wformat-security $
+    -Wimplicit-fallthrough -Wmissing-braces -Wreorder -Wunused-variable $
+    -Wno-address-of-array-temporary -Wthread-safety -m64 -march=x86-64 $
+    --sysroot=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot $
+    -O0 -g -funwind-tables -gsplit-dwarf
+cflags_c = 
+cflags_cc = -fno-exceptions -fno-rtti -fno-threadsafe-statics $
+    -fvisibility-inlines-hidden -std=gnu++11 -Wunused-private-field $
+    -Wno-deprecated
+arflags = 
+
+build obj/webrtc/examples/turnserver/turnserver.turnserver_main.o: cxx $
+    ../../webrtc/examples/turnserver/turnserver_main.cc || $
+    obj/webrtc/turnserver.compile_depends.stamp
+
+ldflags = -Wl,-z,now -Wl,-z,relro -Wl,--fatal-warnings -Wl,-z,defs -pthread $
+    -Wl,-z,noexecstack -fPIC -fuse-ld=gold $
+    -B/home/webrtc/webrtc-checkout/src/third_party/binutils/Linux_x64/Release/bin $
+    -Wl,--disable-new-dtags -m64 $
+    --sysroot=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot $
+    -L/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/lib/x86_64-linux-gnu $
+    -Wl,-rpath-link=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/lib/x86_64-linux-gnu $
+    -L/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib/x86_64-linux-gnu $
+    -Wl,-rpath-link=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib/x86_64-linux-gnu $
+    -L/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib/gcc/x86_64-linux-gnu/4.6 $
+    -Wl,-rpath-link=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib/gcc/x86_64-linux-gnu/4.6 $
+    -L/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib $
+    -Wl,-rpath-link=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot/usr/lib $
+    -Wl,--threads -Wl,--thread-count=4 -Wl,--detect-odr-violations $
+    -Wl,--icf=all
+libs =  -ldl -lrt -lXext -lX11 -lXcomposite -lXrender -lm
+build turnserver: link $
+    obj/webrtc/examples/turnserver/turnserver.turnserver_main.o $
+    obj/webrtc/base/librtc_base_approved.a obj/webrtc/pc/librtc_pc.a $
+    obj/webrtc/base/librtc_base.a obj/webrtc/libwebrtc_common.a $
+    obj/chromium/src/third_party/jsoncpp/libjsoncpp.a $
+    obj/chromium/src/third_party/boringssl/libboringssl.a $
+    obj/chromium/src/third_party/boringssl/libboringssl_asm.a $
+    obj/webrtc/media/librtc_media.a obj/webrtc/libwebrtc.a $
+    obj/webrtc/system_wrappers/libsystem_wrappers.a $
+    obj/webrtc/system_wrappers/libcpu_features_linux.a $
+    obj/webrtc/voice_engine/libvoice_engine.a $
+    obj/webrtc/common_audio/libcommon_audio.a $
+    obj/chromium/src/third_party/openmax_dl/dl/libopenmax_dl.a $
+    obj/webrtc/common_audio/libcommon_audio_sse2.a $
+    obj/webrtc/modules/libaudio_coding_module.a obj/webrtc/modules/libcng.a $
+    obj/webrtc/modules/libaudio_encoder_interface.a $
+    obj/webrtc/modules/libg711.a obj/webrtc/modules/libpcm16b.a $
+    obj/webrtc/modules/libilbc.a obj/webrtc/modules/libwebrtc_opus.a $
+    obj/chromium/src/third_party/opus/libopus.a $
+    obj/webrtc/modules/libg722.a obj/webrtc/modules/libisac.a $
+    obj/webrtc/modules/libaudio_decoder_interface.a $
+    obj/webrtc/modules/libisac_common.a obj/webrtc/modules/libred.a $
+    obj/webrtc/librtc_event_log.a obj/webrtc/librtc_event_log_proto.a $
+    obj/chromium/src/third_party/protobuf/libprotobuf_lite.a $
+    obj/webrtc/modules/libneteq.a $
+    obj/webrtc/modules/libbuiltin_audio_decoder_factory.a $
+    obj/webrtc/modules/libaudio_decoder_factory_interface.a $
+    obj/webrtc/modules/librent_a_codec.a $
+    obj/webrtc/modules/libaudio_conference_mixer.a $
+    obj/webrtc/modules/libaudio_processing.a $
+    obj/webrtc/modules/libaudioproc_debug_proto.a $
+    obj/webrtc/modules/libaudio_processing_sse2.a $
+    obj/webrtc/modules/libwebrtc_utility.a $
+    obj/webrtc/modules/libmedia_file.a obj/webrtc/base/librtc_task_queue.a $
+    obj/chromium/src/base/third_party/libevent/libevent.a $
+    obj/webrtc/modules/libaudio_device.a $
+    obj/webrtc/system_wrappers/libmetrics_default.a $
+    obj/webrtc/modules/libbitrate_controller.a $
+    obj/webrtc/modules/libpaced_sender.a obj/webrtc/modules/librtp_rtcp.a $
+    obj/webrtc/common_video/libcommon_video.a libyuv.a $
+    obj/chromium/src/third_party/libjpeg_turbo/libjpeg_turbo.a $
+    obj/webrtc/modules/libremote_bitrate_estimator.a $
+    obj/webrtc/modules/libcongestion_controller.a $
+    obj/webrtc/modules/libvideo_capture_module.a $
+    obj/webrtc/modules/libvideo_processing.a $
+    obj/webrtc/modules/libvideo_processing_sse2.a $
+    obj/webrtc/modules/libwebrtc_video_coding.a $
+    obj/webrtc/modules/libwebrtc_h264.a obj/webrtc/modules/libwebrtc_i420.a $
+    obj/webrtc/modules/video_coding/utility/libvideo_coding_utility.a $
+    obj/webrtc/modules/video_coding/codecs/vp8/libwebrtc_vp8.a $
+    obj/chromium/src/third_party/libvpx/libvpx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_mmx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse2.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_ssse3.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse4_1.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx2.a $
+    obj/webrtc/modules/video_coding/codecs/vp9/libwebrtc_vp9.a $
+    obj/webrtc/p2p/librtc_p2p.a $
+    obj/chromium/src/third_party/usrsctp/libusrsctplib.a $
+    obj/webrtc/modules/libvideo_capture_module_internal_impl.a $
+    obj/chromium/src/third_party/libsrtp/libsrtp.a || $
+    obj/webrtc/turnserver.actions_depends.stamp
+  ld = $ldxx

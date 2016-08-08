@@ -1,0 +1,140 @@
+defines = -DV8_DEPRECATION_WARNINGS -D_FILE_OFFSET_BITS=64 -DCHROMIUM_BUILD $
+    -DCR_CLANG_REVISION=274369-1 -DUI_COMPOSITOR_IMAGE_TRANSPORT $
+    -DUSE_AURA=1 -DUSE_PANGO=1 -DUSE_CAIRO=1 -DUSE_DEFAULT_RENDER_THEME=1 $
+    -DUSE_LIBJPEG_TURBO=1 -DUSE_X11=1 -DUSE_CLIPBOARD_AURAX11=1 $
+    -DENABLE_WEBRTC=1 -DENABLE_MEDIA_ROUTER=1 -DENABLE_PEPPER_CDMS $
+    -DENABLE_NOTIFICATIONS -DUSE_UDEV -DFIELDTRIAL_TESTING_ENABLED $
+    -DENABLE_TASK_MANAGER=1 -DENABLE_EXTENSIONS=1 -DENABLE_PDF=1 $
+    -DENABLE_PLUGINS=1 -DENABLE_SESSION_SERVICE=1 -DENABLE_THEMES=1 $
+    -DENABLE_PRINTING=1 -DENABLE_BASIC_PRINTING=1 -DENABLE_PRINT_PREVIEW=1 $
+    -DENABLE_SPELLCHECK=1 -DENABLE_CAPTIVE_PORTAL_DETECTION=1 $
+    -DENABLE_SUPERVISED_USERS=1 -DENABLE_MDNS=1 $
+    -DENABLE_SERVICE_DISCOVERY=1 -DV8_USE_EXTERNAL_STARTUP_DATA $
+    -DFULL_SAFE_BROWSING -DSAFE_BROWSING_CSD -DSAFE_BROWSING_DB_LOCAL $
+    -DEXPAT_RELATIVE_PATH -DWEBRTC_POSIX -DWEBRTC_LINUX $
+    -DWEBRTC_INCLUDE_INTERNAL_AUDIO_DEVICE -DHAVE_WEBRTC_VIDEO $
+    -DHAVE_WEBRTC_VOICE -DWEBRTC_BUILD_LIBEVENT -DFEATURE_ENABLE_VOICEMAIL $
+    -DUSE_LIBPCI=1 -DUSE_GLIB=1 -DUSE_NSS_CERTS=1 -D__STDC_CONSTANT_MACROS $
+    -D__STDC_FORMAT_MACROS -DNDEBUG -DNVALGRIND $
+    -DDYNAMIC_ANNOTATIONS_ENABLED=0
+includes = -Igen -I../.. -I../../third_party/usrsctp/usrsctplib $
+    -I../../webrtc/modules/audio_coding/include $
+    -I../../webrtc/modules/include -I../../webrtc $
+    -I../../third_party/opus/src/src -I../../third_party/opus/src/celt $
+    -I../../chromium/src/third_party/opus/src/include $
+    -I../../chromium/src/third_party/libyuv/include $
+    -I../../chromium/src/third_party/libyuv $
+    -I../../chromium/src/third_party/usrsctp/usrsctplib/usrsctplib $
+    -I../../chromium/src/third_party/usrsctp/usrsctplib/usrsctplib/netinet
+cflags = -fstack-protector --param=ssp-buffer-size=4 -Werror -pthread $
+    -fno-strict-aliasing -Wall -Wno-unused-parameter $
+    -Wno-missing-field-initializers -fvisibility=hidden -pipe -fPIC $
+    -fcolor-diagnostics $
+    -B/home/webrtc/webrtc-checkout/src/third_party/binutils/Linux_x64/Release/bin $
+    -Wheader-hygiene -Wno-char-subscripts $
+    -Wno-unneeded-internal-declaration -Wno-covered-switch-default $
+    -Wstring-conversion -Wno-c++11-narrowing -Wno-deprecated-register $
+    -Wno-inconsistent-missing-override -Wno-shift-negative-value $
+    -Wno-undefined-var-template -Wno-nonportable-include-path $
+    -Wno-unused-parameter -Wno-missing-field-initializers $
+    -Wno-strict-overflow -Wimplicit-fallthrough -Wthread-safety $
+    -Winconsistent-missing-override -Wno-deprecated-declarations -pthread $
+    -I/usr/include/gtk-2.0 -I/usr/lib/x86_64-linux-gnu/gtk-2.0/include $
+    -I/usr/include/gio-unix-2.0/ -I/usr/include/cairo $
+    -I/usr/include/pango-1.0 -I/usr/include/atk-1.0 -I/usr/include/cairo $
+    -I/usr/include/pixman-1 -I/usr/include/libpng12 $
+    -I/usr/include/gdk-pixbuf-2.0 -I/usr/include/libpng12 $
+    -I/usr/include/pango-1.0 -I/usr/include/harfbuzz $
+    -I/usr/include/pango-1.0 -I/usr/include/glib-2.0 $
+    -I/usr/lib/x86_64-linux-gnu/glib-2.0/include -I/usr/include/freetype2 $
+    -m64 -march=x86-64 $
+    --sysroot=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot $
+    -O2 -fno-ident -fdata-sections -ffunction-sections -funwind-tables
+cflags_c = 
+cflags_cc = -fno-exceptions -fno-rtti -fno-threadsafe-statics $
+    -fvisibility-inlines-hidden -std=gnu++11 -Wnon-virtual-dtor
+arflags = 
+
+build obj/webrtc/media/base/rtc_media.codec.o: cxx $
+    ../../webrtc/media/base/codec.cc
+build obj/webrtc/media/base/rtc_media.cpuid.o: cxx $
+    ../../webrtc/media/base/cpuid.cc
+build obj/webrtc/media/base/rtc_media.mediaconstants.o: cxx $
+    ../../webrtc/media/base/mediaconstants.cc
+build obj/webrtc/media/base/rtc_media.mediaengine.o: cxx $
+    ../../webrtc/media/base/mediaengine.cc
+build obj/webrtc/media/base/rtc_media.rtpdataengine.o: cxx $
+    ../../webrtc/media/base/rtpdataengine.cc
+build obj/webrtc/media/base/rtc_media.rtpdump.o: cxx $
+    ../../webrtc/media/base/rtpdump.cc
+build obj/webrtc/media/base/rtc_media.rtputils.o: cxx $
+    ../../webrtc/media/base/rtputils.cc
+build obj/webrtc/media/base/rtc_media.streamparams.o: cxx $
+    ../../webrtc/media/base/streamparams.cc
+build obj/webrtc/media/base/rtc_media.turnutils.o: cxx $
+    ../../webrtc/media/base/turnutils.cc
+build obj/webrtc/media/base/rtc_media.videoadapter.o: cxx $
+    ../../webrtc/media/base/videoadapter.cc
+build obj/webrtc/media/base/rtc_media.videobroadcaster.o: cxx $
+    ../../webrtc/media/base/videobroadcaster.cc
+build obj/webrtc/media/base/rtc_media.videocapturer.o: cxx $
+    ../../webrtc/media/base/videocapturer.cc
+build obj/webrtc/media/base/rtc_media.videocommon.o: cxx $
+    ../../webrtc/media/base/videocommon.cc
+build obj/webrtc/media/base/rtc_media.videoframe.o: cxx $
+    ../../webrtc/media/base/videoframe.cc
+build obj/webrtc/media/base/rtc_media.videoframefactory.o: cxx $
+    ../../webrtc/media/base/videoframefactory.cc
+build obj/webrtc/media/base/rtc_media.videosourcebase.o: cxx $
+    ../../webrtc/media/base/videosourcebase.cc
+build obj/webrtc/media/engine/rtc_media.payload_type_mapper.o: cxx $
+    ../../webrtc/media/engine/payload_type_mapper.cc
+build obj/webrtc/media/engine/rtc_media.simulcast.o: cxx $
+    ../../webrtc/media/engine/simulcast.cc
+build obj/webrtc/media/engine/rtc_media.webrtcmediaengine.o: cxx $
+    ../../webrtc/media/engine/webrtcmediaengine.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvideocapturer.o: cxx $
+    ../../webrtc/media/engine/webrtcvideocapturer.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvideocapturerfactory.o: cxx $
+    ../../webrtc/media/engine/webrtcvideocapturerfactory.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvideoengine2.o: cxx $
+    ../../webrtc/media/engine/webrtcvideoengine2.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvideoframe.o: cxx $
+    ../../webrtc/media/engine/webrtcvideoframe.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvideoframefactory.o: cxx $
+    ../../webrtc/media/engine/webrtcvideoframefactory.cc
+build obj/webrtc/media/engine/rtc_media.webrtcvoiceengine.o: cxx $
+    ../../webrtc/media/engine/webrtcvoiceengine.cc
+build obj/webrtc/media/sctp/rtc_media.sctpdataengine.o: cxx $
+    ../../webrtc/media/sctp/sctpdataengine.cc
+build obj/webrtc/media/devices/rtc_media.gtkvideorenderer.o: cxx $
+    ../../webrtc/media/devices/gtkvideorenderer.cc
+
+build obj/webrtc/media/librtc_media.a: alink_thin $
+    obj/webrtc/media/base/rtc_media.codec.o $
+    obj/webrtc/media/base/rtc_media.cpuid.o $
+    obj/webrtc/media/base/rtc_media.mediaconstants.o $
+    obj/webrtc/media/base/rtc_media.mediaengine.o $
+    obj/webrtc/media/base/rtc_media.rtpdataengine.o $
+    obj/webrtc/media/base/rtc_media.rtpdump.o $
+    obj/webrtc/media/base/rtc_media.rtputils.o $
+    obj/webrtc/media/base/rtc_media.streamparams.o $
+    obj/webrtc/media/base/rtc_media.turnutils.o $
+    obj/webrtc/media/base/rtc_media.videoadapter.o $
+    obj/webrtc/media/base/rtc_media.videobroadcaster.o $
+    obj/webrtc/media/base/rtc_media.videocapturer.o $
+    obj/webrtc/media/base/rtc_media.videocommon.o $
+    obj/webrtc/media/base/rtc_media.videoframe.o $
+    obj/webrtc/media/base/rtc_media.videoframefactory.o $
+    obj/webrtc/media/base/rtc_media.videosourcebase.o $
+    obj/webrtc/media/engine/rtc_media.payload_type_mapper.o $
+    obj/webrtc/media/engine/rtc_media.simulcast.o $
+    obj/webrtc/media/engine/rtc_media.webrtcmediaengine.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvideocapturer.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvideocapturerfactory.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvideoengine2.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvideoframe.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvideoframefactory.o $
+    obj/webrtc/media/engine/rtc_media.webrtcvoiceengine.o $
+    obj/webrtc/media/sctp/rtc_media.sctpdataengine.o $
+    obj/webrtc/media/devices/rtc_media.gtkvideorenderer.o

@@ -1,0 +1,598 @@
+cc = ../../third_party/llvm-build/Release+Asserts/bin/clang
+cxx = ../../third_party/llvm-build/Release+Asserts/bin/clang++
+ld = $cc
+ldxx = $cxx
+ar = ar
+nm = nm
+readelf = readelf
+
+pool link_pool
+  depth = 1
+
+rule cc
+  command = $cc -MMD -MF $out.d $defines $includes $cflags $cflags_c $cflags_pch_c -c $in -o $out
+  description = CC $out
+  depfile = $out.d
+  deps = gcc
+rule cc_s
+  command = $cc $defines $includes $cflags $cflags_c $cflags_pch_c -c $in -o $out
+  description = CC $out
+rule cxx
+  command = $cxx -MMD -MF $out.d $defines $includes $cflags $cflags_cc $cflags_pch_cc -c $in -o $out
+  description = CXX $out
+  depfile = $out.d
+  deps = gcc
+rule alink
+  command = rm -f $out && $ar rcs $arflags $out $in
+  description = AR $out
+rule alink_thin
+  command = rm -f $out && $ar rcsT $arflags $out $in
+  description = AR $out
+rule solink
+  command = if [ ! -e $lib -o ! -e $lib.TOC ]; then $ld -shared $ldflags -o $lib -Wl,-soname=$soname @$link_file_list $
+      && { $readelf -d $lib | grep SONAME ; $nm -gD -f p $lib | cut -f1-2 -d' '; } > $lib.TOC; else $ld -shared $
+      $ldflags -o $lib -Wl,-soname=$soname @$link_file_list && { $readelf -d $lib | grep SONAME ; $nm -gD -f p $lib | $
+      cut -f1-2 -d' '; } > $lib.tmp && if ! cmp -s $lib.tmp $lib.TOC; then mv $lib.tmp $lib.TOC ; fi; fi
+  description = SOLINK $lib
+  pool = link_pool
+  restat = 1
+  rspfile = $link_file_list
+  rspfile_content = -Wl,--whole-archive $in $solibs -Wl,--no-whole-archive $libs
+rule solink_module
+  command = if [ ! -e $lib -o ! -e $lib.TOC ]; then $ld -shared $ldflags -o $lib -Wl,-soname=$soname @$link_file_list $
+      && { $readelf -d $lib | grep SONAME ; $nm -gD -f p $lib | cut -f1-2 -d' '; } > $lib.TOC; else $ld -shared $
+      $ldflags -o $lib -Wl,-soname=$soname @$link_file_list && { $readelf -d $lib | grep SONAME ; $nm -gD -f p $lib | $
+      cut -f1-2 -d' '; } > $lib.tmp && if ! cmp -s $lib.tmp $lib.TOC; then mv $lib.tmp $lib.TOC ; fi; fi
+  description = SOLINK(module) $lib
+  pool = link_pool
+  restat = 1
+  rspfile = $link_file_list
+  rspfile_content = -Wl,--start-group $in -Wl,--end-group $solibs $libs
+rule link
+  command = $ld $ldflags -o $out -Wl,--start-group $in -Wl,--end-group $solibs $libs
+  description = LINK $out
+  pool = link_pool
+rule stamp
+  command = ${postbuilds}touch $out
+  description = STAMP $out
+rule copy
+  command = ln -f $in $out 2>/dev/null || (rm -rf $out && cp -af $in $out)
+  description = COPY $in $out
+
+subninja obj/webrtc/tools/agc_test_utils.ninja
+subninja obj/webrtc/system_wrappers/metrics_default.ninja
+subninja obj/webrtc/system_wrappers/field_trial_default.ninja
+subninja obj/webrtc/modules/webrtc_h264.ninja
+subninja obj/webrtc/modules/video_processing_sse2.ninja
+subninja obj/webrtc/modules/isac_common.ninja
+subninja obj/webrtc/modules/desktop_capture_differ_sse2.ninja
+subninja obj/webrtc/modules/audio_processing_sse2.ninja
+subninja obj/webrtc/common_audio/common_audio_sse2.ninja
+subninja obj/webrtc/webrtc_common.ninja
+subninja obj/webrtc/system_wrappers/cpu_features_linux.ninja
+subninja obj/webrtc/modules/audio_decoder_factory_interface.ninja
+subninja obj/webrtc/base/rtc_base_approved.ninja
+subninja obj/webrtc/system_wrappers/system_wrappers.ninja
+subninja obj/webrtc/test/field_trial.ninja
+subninja obj/webrtc/modules/webrtc_i420.ninja
+subninja obj/webrtc/modules/remote_bitrate_estimator.ninja
+subninja obj/webrtc/modules/bitrate_controller.ninja
+subninja obj/webrtc/modules/audio_encoder_interface.ninja
+subninja obj/webrtc/modules/red.ninja
+subninja obj/webrtc/modules/g722.ninja
+subninja obj/webrtc/modules/g722_test.ninja
+subninja obj/webrtc/modules/g711.ninja
+subninja obj/webrtc/modules/pcm16b.ninja
+subninja obj/webrtc/modules/g711_test.ninja
+subninja obj/webrtc/modules/audio_decoder_interface.ninja
+subninja obj/webrtc/base/gtest_prod.ninja
+subninja obj/webrtc/tools/command_line_parser.ninja
+subninja obj/webrtc/peerconnection_server.ninja
+subninja obj/third_party/gflags/gflags.ninja
+subninja obj/chromium/src/third_party/yasm/config_sources.ninja
+subninja obj/chromium/src/third_party/yasm/re2c.ninja
+subninja obj/chromium/src/third_party/yasm/genversion.ninja
+subninja obj/chromium/src/third_party/yasm/genstring.ninja
+subninja obj/chromium/src/third_party/yasm/genperf_libs.ninja
+subninja obj/chromium/src/third_party/yasm/genperf.ninja
+subninja obj/chromium/src/third_party/yasm/generate_files.ninja
+subninja obj/chromium/src/third_party/yasm/genmodule.ninja
+subninja obj/chromium/src/third_party/yasm/genmacro.ninja
+subninja obj/chromium/src/third_party/yasm/yasm.ninja
+subninja obj/chromium/src/third_party/libjpeg_turbo/libjpeg.ninja
+subninja obj/chromium/src/third_party/libyuv/libyuv.ninja
+subninja obj/chromium/src/third_party/protobuf/py_proto.ninja
+subninja obj/chromium/src/third_party/protobuf/protobuf_lite.ninja
+subninja obj/chromium/src/third_party/protobuf/protobuf_full_do_not_use.ninja
+subninja obj/chromium/src/third_party/protobuf/protoc_lib.ninja
+subninja obj/chromium/src/third_party/protobuf/protoc.ninja
+subninja obj/webrtc/rtc_event_log_proto.ninja
+subninja obj/webrtc/rtc_event_log_parser.ninja
+subninja obj/webrtc/modules/rtc_event_log_source.ninja
+subninja obj/webrtc/rtc_event_log.ninja
+subninja obj/webrtc/tools/rtp_analyzer.ninja
+subninja obj/webrtc/modules/neteq_unittest_proto.ninja
+subninja obj/webrtc/modules/audioproc_unittest_proto.ninja
+subninja obj/webrtc/modules/audioproc_debug_proto.ninja
+subninja obj/webrtc/modules/audioproc_protobuf_utils.ninja
+subninja obj/chromium/src/third_party/opus/opus.ninja
+subninja obj/webrtc/modules/webrtc_opus.ninja
+subninja obj/chromium/src/third_party/opus/test_opus_padding.ninja
+subninja obj/chromium/src/third_party/opus/test_opus_encode.ninja
+subninja obj/chromium/src/third_party/opus/test_opus_decode.ninja
+subninja obj/chromium/src/third_party/opus/test_opus_api.ninja
+subninja obj/chromium/src/third_party/opus/opus_demo.ninja
+subninja obj/chromium/src/third_party/opus/opus_compare.ninja
+subninja obj/chromium/src/third_party/openmax_dl/dl/openmax_dl.ninja
+subninja obj/webrtc/common_audio/common_audio.ninja
+subninja obj/webrtc/modules/media_file.ninja
+subninja obj/webrtc/modules/isac_fix.ninja
+subninja obj/webrtc/modules/isac.ninja
+subninja obj/webrtc/modules/isac_test.ninja
+subninja obj/webrtc/modules/isac_switch_samprate_test.ninja
+subninja obj/webrtc/modules/isac_api_test.ninja
+subninja obj/webrtc/modules/audio_processing.ninja
+subninja obj/webrtc/modules/click_annotate.ninja
+subninja obj/webrtc/modules/ilbc.ninja
+subninja obj/webrtc/modules/ilbc_test.ninja
+subninja obj/webrtc/modules/cng.ninja
+subninja obj/webrtc/modules/rent_a_codec.ninja
+subninja obj/webrtc/modules/builtin_audio_decoder_factory.ninja
+subninja obj/webrtc/modules/neteq.ninja
+subninja obj/webrtc/modules/audio_coding_module.ninja
+subninja obj/webrtc/modules/audio_classifier_test.ninja
+subninja obj/webrtc/modules/audioproc_test_utils.ninja
+subninja obj/webrtc/modules/unpack_aecdump.ninja
+subninja obj/webrtc/modules/nonlinear_beamformer_test.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_ssse3.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse4_1.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse2.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_mmx.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx2.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx.ninja
+subninja obj/chromium/src/third_party/libvpx/libvpx.ninja
+subninja obj/chromium/src/third_party/jsoncpp/jsoncpp.ninja
+subninja obj/chromium/src/third_party/boringssl/boringssl_nacl_win64.ninja
+subninja obj/chromium/src/third_party/boringssl/boringssl_asm.ninja
+subninja obj/chromium/src/third_party/boringssl/boringssl.ninja
+subninja obj/webrtc/base/rtc_base.ninja
+subninja obj/webrtc/p2p/rtc_p2p.ninja
+subninja obj/webrtc/p2p/libstunprober.ninja
+subninja obj/webrtc/p2p/stun_prober.ninja
+subninja obj/webrtc/modules/desktop_capture.ninja
+subninja obj/webrtc/libjingle/xmllite/rtc_xmllite.ninja
+subninja obj/webrtc/libjingle/xmpp/rtc_xmpp.ninja
+subninja obj/chromium/src/third_party/usrsctp/usrsctplib.ninja
+subninja obj/chromium/src/third_party/libsrtp/libsrtp.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_stat_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_sha1_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_rand_gen_soak.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_rand_gen.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_kernel_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_env.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_datatypes_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_cipher_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_test_aes_calc.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/rtpw.ninja
+subninja obj/chromium/src/third_party/libsrtp/roc_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/replay_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/rdbx_driver.ninja
+subninja obj/chromium/src/third_party/libsrtp/srtp_runtest.ninja
+subninja obj/chromium/src/testing/gtest_prod.ninja
+subninja obj/chromium/src/testing/gtest.ninja
+subninja obj/webrtc/tools/activity_metric.ninja
+subninja obj/webrtc/test/channel_transport.ninja
+subninja obj/webrtc/modules/neteq_test_tools.ninja
+subninja obj/webrtc/modules/rtp_to_text.ninja
+subninja obj/webrtc/modules/RTPtimeshift.ninja
+subninja obj/webrtc/modules/RTPencode.ninja
+subninja obj/webrtc/modules/RTPchange.ninja
+subninja obj/webrtc/modules/RTPjitter.ninja
+subninja obj/chromium/src/testing/gtest_main.ninja
+subninja obj/chromium/src/testing/gmock.ninja
+subninja obj/chromium/src/testing/gmock_main.ninja
+subninja obj/chromium/src/tools/xdisplaycheck/xdisplaycheck.ninja
+subninja obj/webrtc/test/test_support.ninja
+subninja obj/webrtc/test/test_support_main.ninja
+subninja obj/webrtc/system_wrappers/system_wrappers_unittests.ninja
+subninja obj/webrtc/system_wrappers/system_wrappers_unittests_run.ninja
+subninja obj/webrtc/modules/webrtc_opus_fec_test.ninja
+subninja obj/webrtc/modules/audio_codec_speed_tests.ninja
+subninja obj/webrtc/modules/audio_codec_speed_tests_run.ninja
+subninja obj/webrtc/common_audio/common_audio_unittests.ninja
+subninja obj/webrtc/common_audio/common_audio_unittests_run.ninja
+subninja obj/webrtc/test/test_main.ninja
+subninja obj/webrtc/webrtc_nonparallel_tests.ninja
+subninja obj/webrtc/webrtc_nonparallel_tests_run.ninja
+subninja obj/webrtc/modules/video_codecs_test_framework.ninja
+subninja obj/webrtc/modules/transient_suppression_test.ninja
+subninja obj/webrtc/modules/isac_fix_test.ninja
+subninja obj/webrtc/modules/intelligibility_proc.ninja
+subninja obj/webrtc/modules/insert_packet_with_timing.ninja
+subninja obj/webrtc/modules/delay_test.ninja
+subninja obj/webrtc/modules/audioproc_f.ninja
+subninja obj/webrtc/modules/audioproc.ninja
+subninja obj/webrtc/base/rtc_base_tests_utils.ninja
+subninja obj/webrtc/xmllite_xmpp_unittests.ninja
+subninja obj/chromium/src/build/linux/udev.ninja
+subninja obj/chromium/src/build/linux/libspeechd.ninja
+subninja obj/chromium/src/build/linux/libpci.ninja
+subninja obj/chromium/src/build/linux/libbrlapi.ninja
+subninja obj/chromium/src/build/linux/gio.ninja
+subninja obj/chromium/src/base/third_party/libevent/libevent.ninja
+subninja obj/webrtc/base/rtc_task_queue.ninja
+subninja obj/webrtc/rtc_unittests.ninja
+subninja obj/webrtc/rtc_unittests_run.ninja
+subninja obj/webrtc/modules/webrtc_utility.ninja
+subninja obj/webrtc/modules/new_audio_conference_mixer.ninja
+subninja obj/webrtc/modules/audio_mixer.ninja
+subninja obj/webrtc/modules/audio_device.ninja
+subninja obj/webrtc/modules/audio_device_tests.ninja
+subninja obj/webrtc/modules/audio_device_tests_run.ninja
+subninja obj/webrtc/modules/audio_device_test_func.ninja
+subninja obj/webrtc/modules/audio_conference_mixer.ninja
+subninja obj/webrtc/common_video/common_video.ninja
+subninja obj/webrtc/tools/video_quality_analysis.ninja
+subninja obj/webrtc/tools/psnr_ssim_analyzer.ninja
+subninja obj/webrtc/tools/frame_analyzer.ninja
+subninja obj/webrtc/tools/rgba_to_i420_converter.ninja
+subninja obj/webrtc/tools/frame_editing_lib.ninja
+subninja obj/webrtc/tools/tools_unittests.ninja
+subninja obj/webrtc/tools/tools_unittests_run.ninja
+subninja obj/webrtc/tools/frame_editor.ninja
+subninja obj/webrtc/test/video_test_common.ninja
+subninja obj/webrtc/test/test_renderer.ninja
+subninja obj/webrtc/common_video/common_video_unittests.ninja
+subninja obj/webrtc/common_video/common_video_unittests_run.ninja
+subninja obj/webrtc/test/metrics.ninja
+subninja obj/webrtc/modules/video_coding/utility/video_coding_utility.ninja
+subninja obj/webrtc/modules/video_coding/codecs/vp9/webrtc_vp9.ninja
+subninja obj/webrtc/modules/video_coding/codecs/vp8/webrtc_vp8.ninja
+subninja obj/webrtc/modules/video_coding/codecs/vp8/vp8_coder.ninja
+subninja obj/webrtc/modules/webrtc_video_coding.ninja
+subninja obj/webrtc/modules/video_quality_measurement.ninja
+subninja obj/webrtc/modules/video_processing.ninja
+subninja obj/webrtc/modules/video_capture_module.ninja
+subninja obj/webrtc/modules/video_capture_module_internal_impl.ninja
+subninja obj/webrtc/modules/video_capture_tests.ninja
+subninja obj/webrtc/modules/video_capture.ninja
+subninja obj/webrtc/modules/rtp_rtcp.ninja
+subninja obj/webrtc/tools/event_log_visualizer.ninja
+subninja obj/webrtc/test/rtp_test_utils.ninja
+subninja obj/webrtc/rtc_event_log2rtp_dump.ninja
+subninja obj/webrtc/modules/rtpcat.ninja
+subninja obj/webrtc/modules/neteq_unittest_tools.ninja
+subninja obj/webrtc/modules/rtp_analyze.ninja
+subninja obj/webrtc/modules/neteq_test_support.ninja
+subninja obj/webrtc/modules/neteq_speed_test.ninja
+subninja obj/webrtc/modules/neteq_pcmu_quality_test.ninja
+subninja obj/webrtc/modules/neteq_opus_quality_test.ninja
+subninja obj/webrtc/modules/neteq_isac_quality_test.ninja
+subninja obj/webrtc/modules/neteq_ilbc_quality_test.ninja
+subninja obj/webrtc/modules/neteq_rtpplay.ninja
+subninja obj/webrtc/modules/audio_decoder_unittests.ninja
+subninja obj/webrtc/modules/audio_decoder_unittests_run.ninja
+subninja obj/webrtc/modules/acm_send_test.ninja
+subninja obj/webrtc/modules/acm_receive_test.ninja
+subninja obj/webrtc/modules/test_packet_masks_metrics.ninja
+subninja obj/webrtc/modules/paced_sender.ninja
+subninja obj/webrtc/voice_engine/voice_engine.ninja
+subninja obj/webrtc/voice_engine/voice_engine_unittests.ninja
+subninja obj/webrtc/voice_engine/voice_engine_unittests_run.ninja
+subninja obj/webrtc/voice_engine/voe_cmd_test.ninja
+subninja obj/webrtc/tools/force_mic_volume_max.ninja
+subninja obj/webrtc/tools/audio_e2e_harness.ninja
+subninja obj/webrtc/tools/agc_harness.ninja
+subninja obj/webrtc/modules/congestion_controller.ninja
+subninja obj/webrtc/webrtc.ninja
+subninja obj/webrtc/video_quality_test.ninja
+subninja obj/webrtc/test/test_common.ninja
+subninja obj/webrtc/video_replay.ninja
+subninja obj/webrtc/video_loopback.ninja
+subninja obj/webrtc/video_engine_tests.ninja
+subninja obj/webrtc/video_engine_tests_run.ninja
+subninja obj/webrtc/screenshare_loopback.ninja
+subninja obj/webrtc/voice_engine/voe_auto_test.ninja
+subninja obj/webrtc/voice_engine/voe_auto_test_run.ninja
+subninja obj/webrtc/test/test_support_unittests.ninja
+subninja obj/webrtc/test/test_support_unittests_run.ninja
+subninja obj/webrtc/modules/rtp_player.ninja
+subninja obj/webrtc/media/rtc_media.ninja
+subninja obj/webrtc/pc/rtc_pc.ninja
+subninja obj/webrtc/turnserver.ninja
+subninja obj/webrtc/stunserver.ninja
+subninja obj/webrtc/relayserver.ninja
+subninja obj/webrtc/api/libjingle_peerconnection.ninja
+subninja obj/webrtc/peerconnection_client.ninja
+subninja obj/webrtc/media/rtc_unittest_main.ninja
+subninja obj/webrtc/pc/rtc_pc_unittests.ninja
+subninja obj/webrtc/pc/rtc_pc_unittests_run.ninja
+subninja obj/webrtc/media/rtc_media_unittests.ninja
+subninja obj/webrtc/media/rtc_media_unittests_run.ninja
+subninja obj/webrtc/api/peerconnection_unittests.ninja
+subninja obj/webrtc/api/peerconnection_unittests_run.ninja
+subninja obj/webrtc/modules/bwe_simulator.ninja
+subninja obj/webrtc/webrtc_perf_tests.ninja
+subninja obj/webrtc/webrtc_tests.ninja
+subninja obj/webrtc/webrtc_perf_tests_run.ninja
+subninja obj/webrtc/modules/modules_unittests.ninja
+subninja obj/webrtc/modules/modules_unittests_run.ninja
+subninja obj/webrtc/modules/modules_tests.ninja
+subninja obj/webrtc/modules/modules_tests_run.ninja
+subninja obj/webrtc/modules/bwe_tools_util.ninja
+subninja obj/webrtc/modules/bwe_rtp_to_text.ninja
+subninja obj/webrtc/modules/bwe_rtp_play.ninja
+subninja obj/All.ninja
+
+# Short names for targets.
+build All: phony obj/All.actions_depends.stamp
+build acm_receive_test: phony obj/webrtc/modules/libacm_receive_test.a
+build acm_send_test: phony obj/webrtc/modules/libacm_send_test.a
+build agc_test_utils: phony obj/webrtc/tools/libagc_test_utils.a
+build audio_codec_speed_tests_run: phony audio_codec_speed_tests.isolated
+build audio_coding_module: phony obj/webrtc/modules/libaudio_coding_module.a
+build audio_conference_mixer: phony obj/webrtc/modules/libaudio_conference_mixer.a
+build audio_decoder_factory_interface: phony obj/webrtc/modules/libaudio_decoder_factory_interface.a
+build audio_decoder_interface: phony obj/webrtc/modules/libaudio_decoder_interface.a
+build audio_decoder_unittests_run: phony audio_decoder_unittests.isolated
+build audio_device: phony obj/webrtc/modules/libaudio_device.a
+build audio_device_tests_run: phony audio_device_tests.isolated
+build audio_encoder_interface: phony obj/webrtc/modules/libaudio_encoder_interface.a
+build audio_mixer: phony obj/webrtc/modules/libaudio_mixer.a
+build audio_processing: phony obj/webrtc/modules/libaudio_processing.a
+build audio_processing_sse2: phony obj/webrtc/modules/libaudio_processing_sse2.a
+build audioproc_debug_proto: phony obj/webrtc/modules/libaudioproc_debug_proto.a
+build audioproc_protobuf_utils: phony obj/webrtc/modules/libaudioproc_protobuf_utils.a
+build audioproc_test_utils: phony obj/webrtc/modules/libaudioproc_test_utils.a
+build audioproc_unittest_proto: phony obj/webrtc/modules/libaudioproc_unittest_proto.a
+build bitrate_controller: phony obj/webrtc/modules/libbitrate_controller.a
+build boringssl: phony obj/chromium/src/third_party/boringssl/libboringssl.a
+build boringssl_asm: phony obj/chromium/src/third_party/boringssl/libboringssl_asm.a
+build boringssl_nacl_win64: phony obj/chromium/src/third_party/boringssl/libboringssl_nacl_win64.a
+build builtin_audio_decoder_factory: phony obj/webrtc/modules/libbuiltin_audio_decoder_factory.a
+build bwe_simulator: phony obj/webrtc/modules/libbwe_simulator.a
+build bwe_tools_util: phony obj/webrtc/modules/libbwe_tools_util.a
+build channel_transport: phony obj/webrtc/test/libchannel_transport.a
+build cng: phony obj/webrtc/modules/libcng.a
+build command_line_parser: phony obj/webrtc/tools/libcommand_line_parser.a
+build common_audio: phony obj/webrtc/common_audio/libcommon_audio.a
+build common_audio_sse2: phony obj/webrtc/common_audio/libcommon_audio_sse2.a
+build common_audio_unittests_run: phony common_audio_unittests.isolated
+build common_video: phony obj/webrtc/common_video/libcommon_video.a
+build common_video_unittests_run: phony common_video_unittests.isolated
+build congestion_controller: phony obj/webrtc/modules/libcongestion_controller.a
+build cpu_features_linux: phony obj/webrtc/system_wrappers/libcpu_features_linux.a
+build desktop_capture: phony obj/webrtc/modules/libdesktop_capture.a
+build desktop_capture_differ_sse2: phony obj/webrtc/modules/libdesktop_capture_differ_sse2.a
+build field_trial: phony obj/webrtc/test/libfield_trial.a
+build field_trial_default: phony obj/webrtc/system_wrappers/libfield_trial_default.a
+build frame_editing_lib: phony obj/webrtc/tools/libframe_editing_lib.a
+build g711: phony obj/webrtc/modules/libg711.a
+build g722: phony obj/webrtc/modules/libg722.a
+build generate_files: phony obj/chromium/src/third_party/yasm/generate_files.actions_rules_copies.stamp
+build genperf_libs: phony obj/chromium/src/third_party/yasm/libgenperf_libs.a
+build gflags: phony obj/third_party/gflags/libgflags.a
+build gio: phony obj/chromium/src/build/linux/libgio.a
+build gmock: phony obj/chromium/src/testing/libgmock.a
+build gmock_main: phony obj/chromium/src/testing/libgmock_main.a
+build gtest: phony obj/chromium/src/testing/libgtest.a
+build gtest_main: phony obj/chromium/src/testing/libgtest_main.a
+build ilbc: phony obj/webrtc/modules/libilbc.a
+build isac: phony obj/webrtc/modules/libisac.a
+build isac_common: phony obj/webrtc/modules/libisac_common.a
+build isac_fix: phony obj/webrtc/modules/libisac_fix.a
+build jsoncpp: phony obj/chromium/src/third_party/jsoncpp/libjsoncpp.a
+build libbrlapi: phony obj/chromium/src/build/linux/libbrlapi.a
+build libevent: phony obj/chromium/src/base/third_party/libevent/libevent.a
+build libjingle_peerconnection: phony obj/webrtc/api/libjingle_peerconnection.a
+build libjpeg: phony obj/chromium/src/third_party/libjpeg_turbo/libjpeg_turbo.a
+build libpci: phony obj/chromium/src/build/linux/libpci.a
+build libspeechd: phony obj/chromium/src/build/linux/libspeechd.a
+build libsrtp: phony obj/chromium/src/third_party/libsrtp/libsrtp.a
+build libstunprober: phony obj/webrtc/p2p/libstunprober.a
+build libvpx: phony obj/chromium/src/third_party/libvpx/libvpx.a
+build libvpx_intrinsics_avx: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx.a
+build libvpx_intrinsics_avx2: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx2.a
+build libvpx_intrinsics_mmx: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_mmx.a
+build libvpx_intrinsics_sse2: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse2.a
+build libvpx_intrinsics_sse4_1: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse4_1.a
+build libvpx_intrinsics_ssse3: phony obj/chromium/src/third_party/libvpx/libvpx_intrinsics_ssse3.a
+build libyuv: phony libyuv.a
+build media_file: phony obj/webrtc/modules/libmedia_file.a
+build metrics: phony obj/webrtc/test/libmetrics.a
+build metrics_default: phony obj/webrtc/system_wrappers/libmetrics_default.a
+build modules_tests_run: phony modules_tests.isolated
+build modules_unittests_run: phony modules_unittests.isolated
+build neteq: phony obj/webrtc/modules/libneteq.a
+build neteq_test_support: phony obj/webrtc/modules/libneteq_test_support.a
+build neteq_test_tools: phony obj/webrtc/modules/libneteq_test_tools.a
+build neteq_unittest_proto: phony obj/webrtc/modules/libneteq_unittest_proto.a
+build neteq_unittest_tools: phony obj/webrtc/modules/libneteq_unittest_tools.a
+build new_audio_conference_mixer: phony obj/webrtc/modules/libnew_audio_conference_mixer.a
+build openmax_dl: phony obj/chromium/src/third_party/openmax_dl/dl/libopenmax_dl.a
+build opus: phony obj/chromium/src/third_party/opus/libopus.a
+build paced_sender: phony obj/webrtc/modules/libpaced_sender.a
+build pcm16b: phony obj/webrtc/modules/libpcm16b.a
+build peerconnection_unittests_run: phony peerconnection_unittests.isolated
+build protobuf_full_do_not_use: phony obj/chromium/src/third_party/protobuf/libprotobuf_full_do_not_use.a
+build protobuf_lite: phony obj/chromium/src/third_party/protobuf/libprotobuf_lite.a
+build protoc_lib: phony obj/chromium/src/third_party/protobuf/libprotoc_lib.a
+build py_proto: phony obj/chromium/src/third_party/protobuf/py_proto.actions_rules_copies.stamp
+build red: phony obj/webrtc/modules/libred.a
+build remote_bitrate_estimator: phony obj/webrtc/modules/libremote_bitrate_estimator.a
+build rent_a_codec: phony obj/webrtc/modules/librent_a_codec.a
+build rtc_base: phony obj/webrtc/base/librtc_base.a
+build rtc_base_approved: phony obj/webrtc/base/librtc_base_approved.a
+build rtc_base_tests_utils: phony obj/webrtc/base/librtc_base_tests_utils.a
+build rtc_event_log: phony obj/webrtc/librtc_event_log.a
+build rtc_event_log_parser: phony obj/webrtc/librtc_event_log_parser.a
+build rtc_event_log_proto: phony obj/webrtc/librtc_event_log_proto.a
+build rtc_event_log_source: phony obj/webrtc/modules/librtc_event_log_source.a
+build rtc_media: phony obj/webrtc/media/librtc_media.a
+build rtc_media_unittests_run: phony rtc_media_unittests.isolated
+build rtc_p2p: phony obj/webrtc/p2p/librtc_p2p.a
+build rtc_pc: phony obj/webrtc/pc/librtc_pc.a
+build rtc_pc_unittests_run: phony rtc_pc_unittests.isolated
+build rtc_task_queue: phony obj/webrtc/base/librtc_task_queue.a
+build rtc_unittest_main: phony obj/webrtc/media/librtc_unittest_main.a
+build rtc_unittests_run: phony rtc_unittests.isolated
+build rtc_xmllite: phony obj/webrtc/libjingle/xmllite/librtc_xmllite.a
+build rtc_xmpp: phony obj/webrtc/libjingle/xmpp/librtc_xmpp.a
+build rtp_analyzer: phony obj/webrtc/tools/rtp_analyzer.actions_rules_copies.stamp
+build rtp_rtcp: phony obj/webrtc/modules/librtp_rtcp.a
+build rtp_test_utils: phony obj/webrtc/test/librtp_test_utils.a
+build srtp_runtest: phony obj/chromium/src/third_party/libsrtp/srtp_runtest.actions_depends.stamp
+build system_wrappers: phony obj/webrtc/system_wrappers/libsystem_wrappers.a
+build system_wrappers_unittests_run: phony system_wrappers_unittests.isolated
+build test_common: phony obj/webrtc/test/libtest_common.a
+build test_main: phony obj/webrtc/test/libtest_main.a
+build test_renderer: phony obj/webrtc/test/libtest_renderer.a
+build test_support: phony obj/webrtc/test/libtest_support.a
+build test_support_main: phony obj/webrtc/test/libtest_support_main.a
+build test_support_unittests_run: phony test_support_unittests.isolated
+build tools_unittests_run: phony tools_unittests.isolated
+build udev: phony obj/chromium/src/build/linux/libudev.a
+build usrsctplib: phony obj/chromium/src/third_party/usrsctp/libusrsctplib.a
+build video_capture: phony obj/webrtc/modules/libvideo_capture.a
+build video_capture_module: phony obj/webrtc/modules/libvideo_capture_module.a
+build video_capture_module_internal_impl: phony obj/webrtc/modules/libvideo_capture_module_internal_impl.a
+build video_codecs_test_framework: phony obj/webrtc/modules/libvideo_codecs_test_framework.a
+build video_coding_utility: phony obj/webrtc/modules/video_coding/utility/libvideo_coding_utility.a
+build video_engine_tests_run: phony video_engine_tests.isolated
+build video_processing: phony obj/webrtc/modules/libvideo_processing.a
+build video_processing_sse2: phony obj/webrtc/modules/libvideo_processing_sse2.a
+build video_quality_analysis: phony obj/webrtc/tools/libvideo_quality_analysis.a
+build video_quality_test: phony obj/webrtc/libvideo_quality_test.a
+build video_test_common: phony obj/webrtc/test/libvideo_test_common.a
+build voe_auto_test_run: phony voe_auto_test.isolated
+build voice_engine: phony obj/webrtc/voice_engine/libvoice_engine.a
+build voice_engine_unittests_run: phony voice_engine_unittests.isolated
+build webrtc: phony obj/webrtc/libwebrtc.a
+build webrtc_common: phony obj/webrtc/libwebrtc_common.a
+build webrtc_h264: phony obj/webrtc/modules/libwebrtc_h264.a
+build webrtc_i420: phony obj/webrtc/modules/libwebrtc_i420.a
+build webrtc_nonparallel_tests_run: phony webrtc_nonparallel_tests.isolated
+build webrtc_opus: phony obj/webrtc/modules/libwebrtc_opus.a
+build webrtc_perf_tests_run: phony webrtc_perf_tests.isolated
+build webrtc_tests: phony obj/webrtc/webrtc_tests.actions_depends.stamp
+build webrtc_utility: phony obj/webrtc/modules/libwebrtc_utility.a
+build webrtc_video_coding: phony obj/webrtc/modules/libwebrtc_video_coding.a
+build webrtc_vp8: phony obj/webrtc/modules/video_coding/codecs/vp8/libwebrtc_vp8.a
+build webrtc_vp9: phony obj/webrtc/modules/video_coding/codecs/vp9/libwebrtc_vp9.a
+
+# Empty targets (output for completeness).
+build atk: phony
+build config_sources: phony
+build dbus: phony
+build expat: phony
+build fontconfig: phony
+build freetype2: phony
+build gconf: phony
+build gdk: phony
+build glib: phony
+build gnome_keyring: phony
+build gnome_keyring_direct: phony
+build gtest_prod: phony
+build gtk2: phony
+build gtkprint2: phony
+build libcap: phony
+build libffi: phony
+build libresolv: phony
+build nss: phony
+build pangocairo: phony
+build system_wrappers_default: phony
+build test_support_main_threaded_mac: phony
+build x11: phony
+build xcomposite: phony
+build xcursor: phony
+build xdamage: phony
+build xext: phony
+build xfixes: phony
+build xi: phony
+build xrandr: phony
+build xrender: phony
+build xscrnsaver: phony
+build xtst: phony
+
+build all: phony RTPchange RTPencode RTPjitter RTPtimeshift activity_metric agc_harness audio_classifier_test $
+    audio_codec_speed_tests audio_codec_speed_tests.isolated audio_decoder_unittests audio_decoder_unittests.isolated $
+    audio_device_test_func audio_device_tests audio_device_tests.isolated audio_e2e_harness audioproc audioproc_f $
+    bwe_rtp_play bwe_rtp_to_text click_annotate common_audio_unittests common_audio_unittests.isolated $
+    common_video_unittests common_video_unittests.isolated delay_test event_log_visualizer force_mic_volume_max $
+    frame_analyzer frame_editor g711_test g722_test genmacro genmodule genperf genstring genversion ilbc_test $
+    insert_packet_with_timing intelligibility_proc isac_api_test isac_fix_test isac_switch_samprate_test isac_test $
+    libyuv.a modules_tests modules_tests.isolated modules_unittests modules_unittests.isolated $
+    neteq_ilbc_quality_test neteq_isac_quality_test neteq_opus_quality_test neteq_pcmu_quality_test neteq_rtpplay $
+    neteq_speed_test nonlinear_beamformer_test obj/All.actions_depends.stamp $
+    obj/chromium/src/base/third_party/libevent/libevent.a obj/chromium/src/testing/libgmock.a $
+    obj/chromium/src/testing/libgtest.a obj/chromium/src/third_party/boringssl/libboringssl.a $
+    obj/chromium/src/third_party/boringssl/libboringssl_asm.a obj/chromium/src/third_party/jsoncpp/libjsoncpp.a $
+    obj/chromium/src/third_party/libjpeg_turbo/libjpeg_turbo.a obj/chromium/src/third_party/libsrtp/libsrtp.a $
+    obj/chromium/src/third_party/libvpx/libvpx.a obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_avx2.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_mmx.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse2.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_sse4_1.a $
+    obj/chromium/src/third_party/libvpx/libvpx_intrinsics_ssse3.a $
+    obj/chromium/src/third_party/openmax_dl/dl/libopenmax_dl.a obj/chromium/src/third_party/opus/libopus.a $
+    obj/chromium/src/third_party/protobuf/libprotobuf_full_do_not_use.a $
+    obj/chromium/src/third_party/protobuf/libprotobuf_lite.a obj/chromium/src/third_party/protobuf/libprotoc_lib.a $
+    obj/chromium/src/third_party/usrsctp/libusrsctplib.a $
+    obj/chromium/src/third_party/yasm/generate_files.actions_rules_copies.stamp $
+    obj/chromium/src/third_party/yasm/libgenperf_libs.a obj/third_party/gflags/libgflags.a $
+    obj/webrtc/api/libjingle_peerconnection.a obj/webrtc/base/librtc_base.a obj/webrtc/base/librtc_base_approved.a $
+    obj/webrtc/base/librtc_base_tests_utils.a obj/webrtc/base/librtc_task_queue.a $
+    obj/webrtc/common_audio/libcommon_audio.a obj/webrtc/common_audio/libcommon_audio_sse2.a $
+    obj/webrtc/common_video/libcommon_video.a obj/webrtc/libjingle/xmllite/librtc_xmllite.a $
+    obj/webrtc/libjingle/xmpp/librtc_xmpp.a obj/webrtc/librtc_event_log.a obj/webrtc/librtc_event_log_parser.a $
+    obj/webrtc/librtc_event_log_proto.a obj/webrtc/libvideo_quality_test.a obj/webrtc/libwebrtc.a $
+    obj/webrtc/libwebrtc_common.a obj/webrtc/media/librtc_media.a obj/webrtc/media/librtc_unittest_main.a $
+    obj/webrtc/modules/libacm_receive_test.a obj/webrtc/modules/libacm_send_test.a $
+    obj/webrtc/modules/libaudio_coding_module.a obj/webrtc/modules/libaudio_conference_mixer.a $
+    obj/webrtc/modules/libaudio_decoder_factory_interface.a obj/webrtc/modules/libaudio_decoder_interface.a $
+    obj/webrtc/modules/libaudio_device.a obj/webrtc/modules/libaudio_encoder_interface.a $
+    obj/webrtc/modules/libaudio_mixer.a obj/webrtc/modules/libaudio_processing.a $
+    obj/webrtc/modules/libaudio_processing_sse2.a obj/webrtc/modules/libaudioproc_debug_proto.a $
+    obj/webrtc/modules/libaudioproc_protobuf_utils.a obj/webrtc/modules/libaudioproc_test_utils.a $
+    obj/webrtc/modules/libaudioproc_unittest_proto.a obj/webrtc/modules/libbitrate_controller.a $
+    obj/webrtc/modules/libbuiltin_audio_decoder_factory.a obj/webrtc/modules/libbwe_simulator.a $
+    obj/webrtc/modules/libbwe_tools_util.a obj/webrtc/modules/libcng.a obj/webrtc/modules/libcongestion_controller.a $
+    obj/webrtc/modules/libdesktop_capture.a obj/webrtc/modules/libdesktop_capture_differ_sse2.a $
+    obj/webrtc/modules/libg711.a obj/webrtc/modules/libg722.a obj/webrtc/modules/libilbc.a $
+    obj/webrtc/modules/libisac.a obj/webrtc/modules/libisac_common.a obj/webrtc/modules/libisac_fix.a $
+    obj/webrtc/modules/libmedia_file.a obj/webrtc/modules/libneteq.a obj/webrtc/modules/libneteq_test_support.a $
+    obj/webrtc/modules/libneteq_test_tools.a obj/webrtc/modules/libneteq_unittest_proto.a $
+    obj/webrtc/modules/libneteq_unittest_tools.a obj/webrtc/modules/libnew_audio_conference_mixer.a $
+    obj/webrtc/modules/libpaced_sender.a obj/webrtc/modules/libpcm16b.a obj/webrtc/modules/libred.a $
+    obj/webrtc/modules/libremote_bitrate_estimator.a obj/webrtc/modules/librent_a_codec.a $
+    obj/webrtc/modules/librtc_event_log_source.a obj/webrtc/modules/librtp_rtcp.a $
+    obj/webrtc/modules/libvideo_capture.a obj/webrtc/modules/libvideo_capture_module.a $
+    obj/webrtc/modules/libvideo_capture_module_internal_impl.a obj/webrtc/modules/libvideo_codecs_test_framework.a $
+    obj/webrtc/modules/libvideo_processing.a obj/webrtc/modules/libvideo_processing_sse2.a $
+    obj/webrtc/modules/libwebrtc_h264.a obj/webrtc/modules/libwebrtc_i420.a obj/webrtc/modules/libwebrtc_opus.a $
+    obj/webrtc/modules/libwebrtc_utility.a obj/webrtc/modules/libwebrtc_video_coding.a $
+    obj/webrtc/modules/video_coding/codecs/vp8/libwebrtc_vp8.a $
+    obj/webrtc/modules/video_coding/codecs/vp9/libwebrtc_vp9.a $
+    obj/webrtc/modules/video_coding/utility/libvideo_coding_utility.a obj/webrtc/p2p/librtc_p2p.a $
+    obj/webrtc/p2p/libstunprober.a obj/webrtc/pc/librtc_pc.a obj/webrtc/system_wrappers/libcpu_features_linux.a $
+    obj/webrtc/system_wrappers/libfield_trial_default.a obj/webrtc/system_wrappers/libmetrics_default.a $
+    obj/webrtc/system_wrappers/libsystem_wrappers.a obj/webrtc/test/libchannel_transport.a $
+    obj/webrtc/test/libfield_trial.a obj/webrtc/test/libmetrics.a obj/webrtc/test/librtp_test_utils.a $
+    obj/webrtc/test/libtest_common.a obj/webrtc/test/libtest_main.a obj/webrtc/test/libtest_renderer.a $
+    obj/webrtc/test/libtest_support.a obj/webrtc/test/libtest_support_main.a obj/webrtc/test/libvideo_test_common.a $
+    obj/webrtc/tools/libagc_test_utils.a obj/webrtc/tools/libcommand_line_parser.a $
+    obj/webrtc/tools/libframe_editing_lib.a obj/webrtc/tools/libvideo_quality_analysis.a $
+    obj/webrtc/tools/rtp_analyzer.actions_rules_copies.stamp obj/webrtc/voice_engine/libvoice_engine.a $
+    obj/webrtc/webrtc_tests.actions_depends.stamp peerconnection_client peerconnection_server $
+    peerconnection_unittests peerconnection_unittests.isolated protoc psnr_ssim_analyzer re2c relayserver $
+    rgba_to_i420_converter rtc_event_log2rtp_dump rtc_media_unittests rtc_media_unittests.isolated rtc_pc_unittests $
+    rtc_pc_unittests.isolated rtc_unittests rtc_unittests.isolated rtp_analyze rtp_player rtp_to_text rtpcat $
+    screenshare_loopback stun_prober stunserver system_wrappers_unittests system_wrappers_unittests.isolated $
+    test_packet_masks_metrics test_support_unittests test_support_unittests.isolated tools_unittests $
+    tools_unittests.isolated transient_suppression_test turnserver unpack_aecdump video_capture_tests $
+    video_engine_tests video_engine_tests.isolated video_loopback video_quality_measurement video_replay $
+    voe_auto_test voe_auto_test.isolated voe_cmd_test voice_engine_unittests voice_engine_unittests.isolated $
+    vp8_coder webrtc_nonparallel_tests webrtc_nonparallel_tests.isolated webrtc_opus_fec_test webrtc_perf_tests $
+    webrtc_perf_tests.isolated xdisplaycheck xmllite_xmpp_unittests yasm
+default all

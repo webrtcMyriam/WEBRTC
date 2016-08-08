@@ -1,0 +1,413 @@
+defines = -DV8_DEPRECATION_WARNINGS -D_FILE_OFFSET_BITS=64 -DCHROMIUM_BUILD $
+    -DCR_CLANG_REVISION=274369-1 -DUI_COMPOSITOR_IMAGE_TRANSPORT $
+    -DUSE_AURA=1 -DUSE_PANGO=1 -DUSE_CAIRO=1 -DUSE_DEFAULT_RENDER_THEME=1 $
+    -DUSE_LIBJPEG_TURBO=1 -DUSE_X11=1 -DUSE_CLIPBOARD_AURAX11=1 $
+    -DENABLE_WEBRTC=1 -DENABLE_MEDIA_ROUTER=1 -DENABLE_PEPPER_CDMS $
+    -DENABLE_NOTIFICATIONS -DUSE_UDEV -DFIELDTRIAL_TESTING_ENABLED $
+    -DENABLE_TASK_MANAGER=1 -DENABLE_EXTENSIONS=1 -DENABLE_PDF=1 $
+    -DENABLE_PLUGINS=1 -DENABLE_SESSION_SERVICE=1 -DENABLE_THEMES=1 $
+    -DENABLE_PRINTING=1 -DENABLE_BASIC_PRINTING=1 -DENABLE_PRINT_PREVIEW=1 $
+    -DENABLE_SPELLCHECK=1 -DENABLE_CAPTIVE_PORTAL_DETECTION=1 $
+    -DENABLE_SUPERVISED_USERS=1 -DENABLE_MDNS=1 $
+    -DENABLE_SERVICE_DISCOVERY=1 -DV8_USE_EXTERNAL_STARTUP_DATA $
+    -DFULL_SAFE_BROWSING -DSAFE_BROWSING_CSD -DSAFE_BROWSING_DB_LOCAL $
+    -DGOOGLE_PROTOBUF_NO_RTTI -DGOOGLE_PROTOBUF_NO_STATIC_INITIALIZER $
+    -DHAVE_PTHREAD -DUSE_LIBPCI=1 -DUSE_GLIB=1 -DUSE_NSS_CERTS=1 $
+    -DDYNAMIC_ANNOTATIONS_ENABLED=1 -DWTF_USE_DYNAMIC_ANNOTATIONS=1 $
+    -D_DEBUG -D_GLIBCXX_DEBUG=1
+includes = -Igen -I../../chromium/src/third_party/protobuf/src
+cflags = -fstack-protector --param=ssp-buffer-size=4 -Werror -pthread $
+    -fno-strict-aliasing -Wall -Wno-unused-parameter $
+    -Wno-missing-field-initializers -fvisibility=hidden -pipe -fPIC $
+    -fcolor-diagnostics -Xclang -load -Xclang $
+    /home/webrtc/webrtc-checkout/src/third_party/llvm-build/Release+Asserts/lib/libFindBadConstructs.so $
+    -Xclang -add-plugin -Xclang find-bad-constructs -Xclang $
+    -plugin-arg-find-bad-constructs -Xclang check-templates -Xclang $
+    -plugin-arg-find-bad-constructs -Xclang follow-macro-expansion -Xclang $
+    -plugin-arg-find-bad-constructs -Xclang check-implicit-copy-ctors $
+    -Xclang -plugin-arg-find-bad-constructs -Xclang check-ipc $
+    -B/home/webrtc/webrtc-checkout/src/third_party/binutils/Linux_x64/Release/bin $
+    -Wheader-hygiene -Wno-char-subscripts $
+    -Wno-unneeded-internal-declaration -Wno-covered-switch-default $
+    -Wstring-conversion -Wno-c++11-narrowing -Wno-deprecated-register $
+    -Wno-inconsistent-missing-override -Wno-shift-negative-value $
+    -Wno-undefined-var-template -Wno-nonportable-include-path $
+    -Wno-unused-function -Wno-unused-variable -m64 -march=x86-64 $
+    --sysroot=/home/webrtc/webrtc-checkout/src/build/linux/debian_wheezy_amd64-sysroot $
+    -O0 -g -funwind-tables -gsplit-dwarf
+cflags_c = 
+cflags_cc = -fno-exceptions -fno-rtti -fno-threadsafe-statics $
+    -fvisibility-inlines-hidden -std=gnu++11 -Wno-deprecated
+arflags = 
+
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.any.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/any.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.any.pb.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/any.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.api.pb.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/api.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/compiler/protobuf_full_do_not_use.importer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/compiler/importer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/compiler/protobuf_full_do_not_use.parser.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/compiler/parser.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/descriptor.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/descriptor.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor_database.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/descriptor_database.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.duration.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/duration.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.dynamic_message.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/dynamic_message.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.empty.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/empty.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.extension_set_heavy.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/extension_set_heavy.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.field_mask.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/field_mask.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.generated_message_reflection.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/generated_message_reflection.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.printer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/printer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.strtod.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/strtod.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.tokenizer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/tokenizer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream_impl.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.map_field.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/map_field.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.message.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/message.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.reflection_ops.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/reflection_ops.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.service.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/service.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.source_context.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/source_context.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.struct.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/struct.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.mathlimits.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/mathlimits.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.substitute.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/substitute.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.text_format.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/text_format.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.timestamp.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/timestamp.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.type.pb.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/type.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.unknown_field_set.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/unknown_field_set.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.field_comparator.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/field_comparator.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.field_mask_util.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/field_mask_util.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.datapiece.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/datapiece.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.default_value_objectwriter.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/default_value_objectwriter.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.error_listener.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/error_listener.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.field_mask_utility.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/field_mask_utility.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_escaping.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/json_escaping.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_objectwriter.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/json_objectwriter.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_stream_parser.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/json_stream_parser.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.object_writer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/object_writer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.proto_writer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/proto_writer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.protostream_objectsource.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protostream_objectsource.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.protostream_objectwriter.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protostream_objectwriter.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.type_info.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/type_info.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.type_info_test_helper.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/type_info_test_helper.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.utility.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/internal/utility.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.json_util.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/json_util.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.message_differencer.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/message_differencer.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.time_util.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/time_util.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.type_resolver_util.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/util/type_resolver_util.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wire_format.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/wire_format.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wrappers.pb.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/wrappers.pb.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.arena.o: $
+    cxx ../../chromium/src/third_party/protobuf/src/google/protobuf/arena.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.arenastring.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/arenastring.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.extension_set.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/extension_set.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.generated_message_util.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/generated_message_util.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.coded_stream.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/coded_stream.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream_impl_lite.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/io/zero_copy_stream_impl_lite.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.message_lite.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/message_lite.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.repeated_field.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/repeated_field.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.atomicops_internals_x86_gcc.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_gcc.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.atomicops_internals_x86_msvc.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/atomicops_internals_x86_msvc.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.bytestream.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/bytestream.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.common.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/common.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.int128.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/int128.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.once.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/once.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.status.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/status.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.statusor.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/statusor.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.stringpiece.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/stringpiece.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.stringprintf.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/stringprintf.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.structurally_valid.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/structurally_valid.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.strutil.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/strutil.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.time.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/stubs/time.cc
+build $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wire_format_lite.o: $
+    cxx $
+    ../../chromium/src/third_party/protobuf/src/google/protobuf/wire_format_lite.cc
+
+build obj/chromium/src/third_party/protobuf/libprotobuf_full_do_not_use.a: $
+    alink_thin $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.any.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.any.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.api.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/compiler/protobuf_full_do_not_use.importer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/compiler/protobuf_full_do_not_use.parser.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.descriptor_database.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.duration.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.dynamic_message.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.empty.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.extension_set_heavy.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.field_mask.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.generated_message_reflection.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.printer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.strtod.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.tokenizer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream_impl.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.map_field.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.message.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.reflection_ops.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.service.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.source_context.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.struct.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.mathlimits.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.substitute.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.text_format.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.timestamp.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.type.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.unknown_field_set.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.field_comparator.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.field_mask_util.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.datapiece.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.default_value_objectwriter.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.error_listener.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.field_mask_utility.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_escaping.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_objectwriter.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.json_stream_parser.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.object_writer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.proto_writer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.protostream_objectsource.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.protostream_objectwriter.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.type_info.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.type_info_test_helper.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/internal/protobuf_full_do_not_use.utility.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.json_util.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.message_differencer.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.time_util.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/util/protobuf_full_do_not_use.type_resolver_util.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wire_format.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wrappers.pb.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.arena.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.arenastring.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.extension_set.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.generated_message_util.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.coded_stream.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/io/protobuf_full_do_not_use.zero_copy_stream_impl_lite.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.message_lite.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.repeated_field.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.atomicops_internals_x86_gcc.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.atomicops_internals_x86_msvc.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.bytestream.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.common.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.int128.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.once.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.status.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.statusor.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.stringpiece.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.stringprintf.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.structurally_valid.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.strutil.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/stubs/protobuf_full_do_not_use.time.o $
+    obj/chromium/src/third_party/protobuf/src/google/protobuf/protobuf_full_do_not_use.wire_format_lite.o
